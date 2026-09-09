@@ -1,0 +1,4 @@
+import {createContext,useContext,useEffect,useMemo,useState} from 'react';
+const CartContext=createContext(null);const KEY='nyb-cart';
+export function CartProvider({children}){const [items,setItems]=useState(()=>{try{return JSON.parse(localStorage.getItem(KEY))||[]}catch{return[]}});useEffect(()=>localStorage.setItem(KEY,JSON.stringify(items)),[items]);const addToCart=p=>setItems(c=>{const x=c.find(i=>i.id===p.id);return x?c.map(i=>i.id===p.id?{...i,quantity:i.quantity+1}:i):[...c,{...p,quantity:1}]});const removeFromCart=index=>setItems(c=>c.filter((_,i)=>i!==index));const clearCart=()=>setItems([]);const total=useMemo(()=>items.reduce((s,i)=>s+i.price*i.quantity,0),[items]);return <CartContext.Provider value={{cart:items,items,addToCart,removeFromCart,clearCart,total,count:items.reduce((s,i)=>s+i.quantity,0)}}>{children}</CartContext.Provider>}
+export const useCart=()=>useContext(CartContext);

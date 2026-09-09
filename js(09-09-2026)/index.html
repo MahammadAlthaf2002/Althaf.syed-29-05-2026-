@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Management Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🛒 Product Management Dashboard</h1>
+        <p>JavaScript Arrays, Objects & Modern JavaScript Mini Project</p>
+    </header>
+
+    <main>
+
+        <!-- Statistics -->
+        <section class="stats">
+
+            <div class="card">
+                <h3>Total Products</h3>
+                <p id="totalProducts">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Value</h3>
+                <p id="totalValue">₹0</p>
+            </div>
+
+            <div class="card">
+                <h3>Available Products</h3>
+                <p id="availableProducts">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Out of Stock</h3>
+                <p id="outOfStock">0</p>
+            </div>
+
+        </section>
+
+
+        <!-- Controls -->
+        <section class="controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search product..."
+            >
+
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home">Home</option>
+            </select>
+
+            <select id="sortSelect">
+                <option value="default">Sort Products</option>
+                <option value="priceLow">Price: Low to High</option>
+                <option value="priceHigh">Price: High to Low</option>
+                <option value="name">Name A-Z</option>
+            </select>
+
+        </section>
+
+
+        <!-- Product List -->
+        <section>
+
+            <h2>Products</h2>
+
+            <div id="productContainer" class="product-container"></div>
+
+        </section>
+
+
+        <!-- JavaScript Concepts -->
+        <section class="concepts">
+
+            <h2>JavaScript Concepts Used</h2>
+
+            <div class="concept-grid">
+
+                <div>
+                    <h3>Arrays</h3>
+                    <p>Creating and accessing arrays</p>
+                    <p>Adding and removing elements</p>
+                    <p>Searching elements</p>
+                    <p>Looping through arrays</p>
+                </div>
+
+                <div>
+                    <h3>Array Methods</h3>
+                    <p>map()</p>
+                    <p>filter()</p>
+                    <p>reduce()</p>
+                    <p>find()</p>
+                    <p>findIndex()</p>
+                </div>
+
+                <div>
+                    <h3>More Methods</h3>
+                    <p>some()</p>
+                    <p>every()</p>
+                    <p>forEach()</p>
+                    <p>sort()</p>
+                    <p>join()</p>
+                </div>
+
+                <div>
+                    <h3>Objects</h3>
+                    <p>Object.keys()</p>
+                    <p>Object.values()</p>
+                    <p>Object.entries()</p>
+                    <p>Nested Objects</p>
+                    <p>Object Methods</p>
+                </div>
+
+                <div>
+                    <h3>Modern JavaScript</h3>
+                    <p>Destructuring</p>
+                    <p>Spread Operator</p>
+                    <p>Rest Operator</p>
+                    <p>Optional Chaining</p>
+                    <p>Nullish Coalescing</p>
+                </div>
+
+                <div>
+                    <h3>Advanced</h3>
+                    <p>Shallow Copy</p>
+                    <p>Deep Copy</p>
+                    <p>Flattening Arrays</p>
+                    <p>Removing Duplicates</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>JavaScript Mini Project © 2026</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

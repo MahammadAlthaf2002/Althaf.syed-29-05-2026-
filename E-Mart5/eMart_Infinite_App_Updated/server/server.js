@@ -1,0 +1,21 @@
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import {fileURLToPath} from 'url';
+import {findProduct} from './services/comparisonService.js';
+const __dirname=path.dirname(fileURLToPath(import.meta.url));
+const dbFile=path.join(__dirname,'users.json');
+const app=express();const PORT=process.env.PORT||5000;
+app.use((req,res,next)=>{res.setHeader('Access-Control-Allow-Origin','*');res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE,OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');if(req.method==='OPTIONS') return res.sendStatus(204);next()});app.use(express.json());
+function readUsers(){try{return JSON.parse(fs.readFileSync(dbFile,'utf8'))}catch{return []}}
+function writeUsers(users){fs.writeFileSync(dbFile,JSON.stringify(users,null,2))}
+function hash(password,salt=crypto.randomBytes(16).toString('hex')){const digest=crypto.scryptSync(password,salt,64).toString('hex');return `${salt}:${digest}`}
+function verify(password,stored){const [salt,digest]=stored.split(':');const check=crypto.scryptSync(password,salt,64).toString('hex');return crypto.timingSafeEqual(Buffer.from(digest,'hex'),Buffer.from(check,'hex'))}
+app.get('/api/health',(_req,res)=>res.json({ok:true,service:'eMart Infinite App API'}));
+app.post('/api/register',(req,res)=>{const {name,userId,email,phone,password}=req.body||{};if(!name||!userId||!email||!phone||!password)return res.status(400).json({message:'All registration fields are required.'});const users=readUsers();const exists=users.some(u=>u.userId.toLowerCase()===userId.toLowerCase()||u.email.toLowerCase()===email.toLowerCase());if(exists)return res.status(409).json({message:'User ID or email already exists.'});const user={id:crypto.randomUUID(),name,userId,email,phone,passwordHash:hash(password),createdAt:new Date().toISOString()};users.push(user);writeUsers(users);res.status(201).json({user:{id:user.id,name,userId,email,phone}})});
+app.post('/api/login',(req,res)=>{const {userId,password}=req.body||{};const user=readUsers().find(u=>u.userId.toLowerCase()===String(userId||'').toLowerCase()||u.email.toLowerCase()===String(userId||'').toLowerCase());if(!user||!verify(String(password||''),user.passwordHash))return res.status(401).json({message:'Invalid user ID/email or password.'});res.json({user:{id:user.id,name:user.name,userId:user.userId,email:user.email,phone:user.phone}})});
+app.post('/api/ai',(req,res)=>{const q=String(req.body?.message||'').trim().toLowerCase();let reply='I can help with eMart Infinite services. Try food, shopping, medicine, recharge, login, cart or travel.';let action='';if(/food|pizza|biryani|burger|dosa|pasta/.test(q)){reply='Food Delivery is ready. It shows food-only products such as burgers, pizza, biryani, dosa and pasta.';action='/service/food'}else if(/iphone|shopping|laptop|shoe|camera|watch/.test(q)){reply='Shopping is ready with electronics, fashion, footwear, cameras, watches and bags.';action='/service/shopping'}else if(/medicine|tablet|vitamin|doctor|health/.test(q)){reply='Healthcare is separated from shopping and food. I can open Medicine & Health.';action='/service/medicine'}else if(/recharge|bill|electricity/.test(q)){reply='Recharge & Bills has its own number/account form and service actions.';action='/service/recharge'}else if(/login|register|account|sign in/.test(q)){reply='The account flow supports registration and sign in using user ID/email and password.';action='/auth/login'}else if(/cart|checkout|order/.test(q)){reply='Your cart is ready. You can change quantities, remove items and continue to checkout.';action='/cart'}else if(/hotel|flight|travel/.test(q)){reply='Travel has separate flight and hotel experiences.';action='/service/flight'}
+else {reply=`Smart search is active for “${q}”. Use the full search results to explore matching products and services.`;action=`/compare/search?q=${encodeURIComponent(q)}`}res.json({reply,action})});
+app.post('/api/compare',(req,res)=>{const input=String(req.body?.input||'').trim();if(!input)return res.status(400).json({message:'Product URL or search term is required.'});res.json({success:true,searched:input,product:findProduct(input)})});
+app.listen(PORT,()=>console.log(`eMart Infinite API running on http://localhost:${PORT}`));
