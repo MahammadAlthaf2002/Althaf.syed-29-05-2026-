@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Product Explorer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            <span>NY</span>
+            <div>
+                <h2>SmartMart</h2>
+                <small>Product Explorer</small>
+            </div>
+        </div>
+
+        <div class="header-actions">
+
+            <button id="themeBtn" class="icon-btn">
+                ◐
+            </button>
+
+            <button id="cartBtn" class="cart-btn">
+                🛒 Cart
+                <span id="cartCount">0</span>
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+            <div>
+
+                <span class="badge">
+                    JavaScript Assessment
+                </span>
+
+                <h1>
+                    Find the right product.
+                </h1>
+
+                <p>
+                    Search, filter, sort and manage products
+                    using JavaScript.
+                </p>
+
+            </div>
+
+            <div class="hero-card">
+
+                <span>Products</span>
+
+                <strong id="totalProducts">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <section class="controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products..."
+            >
+
+            <select id="categorySelect">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+            </select>
+
+            <select id="sortSelect">
+
+                <option value="default">
+                    Sort Products
+                </option>
+
+                <option value="low">
+                    Price: Low to High
+                </option>
+
+                <option value="high">
+                    Price: High to Low
+                </option>
+
+                <option value="rating">
+                    Highest Rating
+                </option>
+
+                <option value="name">
+                    Name
+                </option>
+
+            </select>
+
+            <button id="clearBtn">
+                Clear
+            </button>
+
+        </section>
+
+
+        <section class="stats">
+
+            <div>
+                <span>Showing</span>
+                <strong id="showingCount">0</strong>
+            </div>
+
+            <div>
+                <span>Average Price</span>
+                <strong id="averagePrice">₹0</strong>
+            </div>
+
+            <div>
+                <span>Top Rated</span>
+                <strong id="topRated">-</strong>
+            </div>
+
+        </section>
+
+
+        <section>
+
+            <div id="productContainer"
+                 class="product-grid">
+            </div>
+
+            <div id="emptyMessage"
+                 class="empty hidden">
+
+                No products found.
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <div id="productModal"
+         class="modal hidden">
+
+        <div class="modal-box">
+
+            <button id="closeModal"
+                    class="close">
+                ×
+            </button>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <div id="cartPanel"
+         class="cart-panel">
+
+        <div class="cart-header">
+
+            <h2>Your Cart</h2>
+
+            <button id="closeCart">
+                ×
+            </button>
+
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-footer">
+
+            <strong>
+                Total:
+                <span id="cartTotal">
+                    ₹0
+                </span>
+            </strong>
+
+            <button id="clearCart">
+                Clear Cart
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
